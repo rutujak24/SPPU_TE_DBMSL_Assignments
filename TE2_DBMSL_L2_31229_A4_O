@@ -1,0 +1,338 @@
+use assign_A4;
+
+show tables;
++---------------------+
+| Tables_in_assign_a3 |
++---------------------+
+| author              |
+| book                |
+| customer            |
+| orders              |
+| publisher           |
++---------------------+
+5 rows in set (0.03 sec)
+
+
+select * from author;
++-----------+---------------+---------+
+| author_no | author_name   | country |
++-----------+---------------+---------+
+|         1 | Snowy Brown   | Germany |
+|         2 | Balkrishan    | India   |
+|         3 | Ramakant      | India   |
+|         4 | Downy Flasks  | France  |
+|         5 | JK Rowling    | Germany |
+|         6 | Handsome Jony | USA     |
++-----------+---------------+---------+
+6 rows in set (0.06 sec)
+
+
+select * from book;
++------+-------------------------------+------------+-----------+--------------+----------+
+| ISBN | title                         | unit_price | author_no | publisher_no | pub_year |
++------+-------------------------------+------------+-----------+--------------+----------+
+| 1    | In Search of Lost Time        |        400 |         5 |            3 |     1903 |
+| 2    | Ulysses                       |        500 |         6 |            4 |     1934 |
+| 3    | Don Quixote                   |        434 |         7 |            5 |     1945 |
+| 4    | The Great Gatsby              |        540 |         8 |            6 |     1955 |
+| 5    | One Hundred Years of Solitude |        340 |         9 |            7 |     1954 |
+| 6    | Moby Dick                     |        600 |        10 |            8 |     1967 |
+| 7    | War and Peace                 |        700 |        11 |            9 |     1923 |
+| 8    | Hamlet                        |        900 |        12 |           10 |     1904 |
++------+-------------------------------+------------+-----------+--------------+----------+
+8 rows in set (0.03 sec)
+
+
+select * from publisher;
++--------------+----------------+----------------+------------+
+| publisher_no | publisher_name | publisher_addr | birth_year |
++--------------+----------------+----------------+------------+
+|            1 | Lalu           | Germany        |       1934 |
+|            2 | Bhola          | India          |       1975 |
+|            3 | Raghu          | India          |       2000 |
+|            4 | Kabuliwala     | France         |       1983 |
+|            5 | John           | Germany        |       1975 |
+|            6 | O Henry        | USA            |       1968 |
++--------------+----------------+----------------+------------+
+6 rows in set (0.04 sec)
+
+
+select * from customer;
++---------+------------+------------+--------------+----------+------------+
+| cust_no | cust_fname | cust_lname | cust_company | city     | cust_phone |
++---------+------------+------------+--------------+----------+------------+
+|       1 | diya       | patel      | BMC          | pune     | 9781232782 |
+|       2 | riya       | shah       | ETF          | pune     | 9681232122 |
+|       3 | sara       | patil      | IndCan       | mumbai   | 9781232122 |
+|       4 | drishti    | joshi      | BMC          | nagpur   | 8981232122 |
+|       5 | henna      | shah       | NTF          | pimpri   | 9781652122 |
+|       6 | fatema     | katawala   | BEST         | raipur   | 9781237622 |
+|       7 | shreya     | shah       | VESIT        | delhi    | 9781228762 |
+|       8 | anuja      | dhobale    | Fintech      | mumbai   | 9785532122 |
+|       9 | anuksha    | pal        | Capgemini    | kolhapur | 6781232122 |
+|      10 | ishita     | das        | DB           | pune     | 9781782122 |
++---------+------------+------------+--------------+----------+------------+
+10 rows in set (0.03 sec)
+
+
+select * from orders;
++----------+---------+------+------+------------+
+| order_no | cust_no | ISBN | qty  | odate      |
++----------+---------+------+------+------------+
+|        1 |       3 | 1    |    1 | 2019-05-30 |
+|        2 |       5 | 3    |    2 | 2020-06-10 |
+|        3 |       8 | 5    |    1 | 2020-03-30 |
++----------+---------+------+------+------------+
+3 rows in set (0.03 sec)
+
+
+#IMPLEMENTING ALL JOINS
+
+#1. Natural Join without a condition
+select * from customer NATURAL JOIN orders;
++---------+------------+------------+--------------+--------+------------+----------+------+------+------------+
+| cust_no | cust_fname | cust_lname | cust_company | city   | cust_phone | order_no | ISBN | qty  | odate      |
++---------+------------+------------+--------------+--------+------------+----------+------+------+------------+
+|       3 | sara       | patil      | IndCan       | mumbai | 9781232122 |        1 | 1    |    1 | 2019-05-30 |
+|       5 | henna      | shah       | NTF          | pimpri | 9781652122 |        2 | 3    |    2 | 2020-06-10 |
+|       8 | anuja      | dhobale    | Fintech      | mumbai | 9785532122 |        3 | 5    |    1 | 2020-03-30 |
++---------+------------+------------+--------------+--------+------------+----------+------+------+------------+
+3 rows in set (0.32 sec)
+
+
+#2.Natural Join using constraint
+SELECT title, author_no, publisher_no FROM book NATURAL
+JOIN author;
++------------------------+-----------+--------------+
+| title                  | author_no | publisher_no |
++------------------------+-----------+--------------+
+| In Search of Lost Time |         5 |            3 |
+| Ulysses                |         6 |            4 |
++------------------------+-----------+--------------+
+2 rows in set (0.00 sec)
+
+
+#3.The INNER JOIN using ON clause do the same job.
+SELECT book.title, author.author_name, author.country
+    -> FROM book
+    -> INNER JOIN author ON book.author_no = author.author_no;
++------------------------+---------------+---------+
+| title                  | author_name   | country |
++------------------------+---------------+---------+
+| In Search of Lost Time | JK Rowling    | Germany |
+| Ulysses                | Handsome Jony | USA     |
++------------------------+---------------+---------+
+2 rows in set (0.00 sec)
+
+#4.
+SELECT author.author_name, author.author_no, book.title, book.unit_price from author left join book ON book.author_no=author.author_no;
++---------------+-----------+------------------------+------------+
+| author_name   | author_no | title                  | unit_price |
++---------------+-----------+------------------------+------------+
+| Snowy Brown   |         1 | NULL                   |       NULL |
+| Balkrishan    |         2 | NULL                   |       NULL |
+| Ramakant      |         3 | NULL                   |       NULL |
+| Downy Flasks  |         4 | NULL                   |       NULL |
+| JK Rowling    |         5 | In Search of Lost Time |        400 |
+| Handsome Jony |         6 | Ulysses                |        500 |
++---------------+-----------+------------------------+------------+
+6 rows in set (0.00 sec)
+
+
+#5.
+SELECT * from author left join book ON book.author_no=author.author_no;
++-----------+---------------+---------+------+------------------------+------------+-----------+--------------+----------+
+| author_no | author_name   | country | ISBN | title                  | unit_price | author_no | publisher_no | pub_year |
++-----------+---------------+---------+------+------------------------+------------+-----------+--------------+----------+
+|         1 | Snowy Brown   | Germany | NULL | NULL                   |       NULL |      NULL |         NULL |     NULL |
+|         2 | Balkrishan    | India   | NULL | NULL                   |       NULL |      NULL |         NULL |     NULL |
+|         3 | Ramakant      | India   | NULL | NULL                   |       NULL |      NULL |         NULL |     NULL |
+|         4 | Downy Flasks  | France  | NULL | NULL                   |       NULL |      NULL |         NULL |     NULL |
+|         5 | JK Rowling    | Germany | 1    | In Search of Lost Time |        400 |         5 |            3 |     1903 |
+|         6 | Handsome Jony | USA     | 2    | Ulysses                |        500 |         6 |            4 |     1934 |
++-----------+---------------+---------+------+------------------------+------------+-----------+--------------+----------+
+6 rows in set (0.00 sec)
+
+
+#6.RIGHT JOIN
+ SELECT author.author_name, author.author_no, book.title, book.unit_price from author RIGHT join book ON book.author_no=author.author_no;
++---------------+-----------+-------------------------------+------------+
+| author_name   | author_no | title                         | unit_price |
++---------------+-----------+-------------------------------+------------+
+| JK Rowling    |         5 | In Search of Lost Time        |        400 |
+| Handsome Jony |         6 | Ulysses                       |        500 |
+| NULL          |      NULL | Don Quixote                   |        434 |
+| NULL          |      NULL | The Great Gatsby              |        540 |
+| NULL          |      NULL | One Hundred Years of Solitude |        340 |
+| NULL          |      NULL | Moby Dick                     |        600 |
+| NULL          |      NULL | War and Peace                 |        700 |
+| NULL          |      NULL | Hamlet                        |        900 |
++---------------+-----------+-------------------------------+------------+
+8 rows in set (0.00 sec)
+
+#7. FULL JOIN
+SELECT author.author_name, author.author_no, book.title, book.unit_price from author RIGHT join book ON book.author_no=author.author_no
+    -> UNION
+    -> SELECT author.author_name, author.author_no, book.title, book.unit_price from author LEFT join book ON book.author_no=author.author_no
+    -> ;
++---------------+-----------+-------------------------------+------------+
+| author_name   | author_no | title                         | unit_price |
++---------------+-----------+-------------------------------+------------+
+| JK Rowling    |         5 | In Search of Lost Time        |        400 |
+| Handsome Jony |         6 | Ulysses                       |        500 |
+| NULL          |      NULL | Don Quixote                   |        434 |
+| NULL          |      NULL | The Great Gatsby              |        540 |
+| NULL          |      NULL | One Hundred Years of Solitude |        340 |
+| NULL          |      NULL | Moby Dick                     |        600 |
+| NULL          |      NULL | War and Peace                 |        700 |
+| NULL          |      NULL | Hamlet                        |        900 |
+| Snowy Brown   |         1 | NULL                          |       NULL |
+| Balkrishan    |         2 | NULL                          |       NULL |
+| Ramakant      |         3 | NULL                          |       NULL |
+| Downy Flasks  |         4 | NULL                          |       NULL |
++---------------+-----------+-------------------------------+------------+
+12 rows in set (0.04 sec)
+
+
+#8. INNER JOIN VS NATURAL JOIN
+mysql> SELECT author.author_name, author.author_no, book.title, book.unit_price, book.author_no from author NATURAL join book WHERE book.author_no=author.author_no;
++---------------+-----------+------------------------+------------+-----------+
+| author_name   | author_no | title                  | unit_price | author_no |
++---------------+-----------+------------------------+------------+-----------+
+| JK Rowling    |         5 | In Search of Lost Time |        400 |         5 |
+| Handsome Jony |         6 | Ulysses                |        500 |         6 |
++---------------+-----------+------------------------+------------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT author.author_name, author.author_no, book.title, book.unit_price, book.author_no from author LEFT join book ON book.author_no=author.author_no;
++---------------+-----------+------------------------+------------+-----------+
+| author_name   | author_no | title                  | unit_price | author_no |
++---------------+-----------+------------------------+------------+-----------+
+| Snowy Brown   |         1 | NULL                   |       NULL |      NULL |
+| Balkrishan    |         2 | NULL                   |       NULL |      NULL |
+| Ramakant      |         3 | NULL                   |       NULL |      NULL |
+| Downy Flasks  |         4 | NULL                   |       NULL |      NULL |
+| JK Rowling    |         5 | In Search of Lost Time |        400 |         5 |
+| Handsome Jony |         6 | Ulysses                |        500 |         6 |
++---------------+-----------+------------------------+------------+-----------+
+6 rows in set (0.00 sec)
+
+#SELF JOIN
+SELECT * from author SELF JOIN author;
++-----------+---------------+---------+-----------+---------------+---------+
+| author_no | author_name   | country | author_no | author_name   | country |
++-----------+---------------+---------+-----------+---------------+---------+
+|         6 | Handsome Jony | USA     |         1 | Snowy Brown   | Germany |
+|         5 | JK Rowling    | Germany |         1 | Snowy Brown   | Germany |
+|         4 | Downy Flasks  | France  |         1 | Snowy Brown   | Germany |
+|         3 | Ramakant      | India   |         1 | Snowy Brown   | Germany |
+|         2 | Balkrishan    | India   |         1 | Snowy Brown   | Germany |
+|         1 | Snowy Brown   | Germany |         1 | Snowy Brown   | Germany |
+|         6 | Handsome Jony | USA     |         2 | Balkrishan    | India   |
+|         5 | JK Rowling    | Germany |         2 | Balkrishan    | India   |
+|         4 | Downy Flasks  | France  |         2 | Balkrishan    | India   |
+|         3 | Ramakant      | India   |         2 | Balkrishan    | India   |
+|         2 | Balkrishan    | India   |         2 | Balkrishan    | India   |
+|         1 | Snowy Brown   | Germany |         2 | Balkrishan    | India   |
+|         6 | Handsome Jony | USA     |         3 | Ramakant      | India   |
+|         5 | JK Rowling    | Germany |         3 | Ramakant      | India   |
+|         4 | Downy Flasks  | France  |         3 | Ramakant      | India   |
+|         3 | Ramakant      | India   |         3 | Ramakant      | India   |
+|         2 | Balkrishan    | India   |         3 | Ramakant      | India   |
+|         1 | Snowy Brown   | Germany |         3 | Ramakant      | India   |
+|         6 | Handsome Jony | USA     |         4 | Downy Flasks  | France  |
+|         5 | JK Rowling    | Germany |         4 | Downy Flasks  | France  |
+|         4 | Downy Flasks  | France  |         4 | Downy Flasks  | France  |
+|         3 | Ramakant      | India   |         4 | Downy Flasks  | France  |
+|         2 | Balkrishan    | India   |         4 | Downy Flasks  | France  |
+|         1 | Snowy Brown   | Germany |         4 | Downy Flasks  | France  |
+|         6 | Handsome Jony | USA     |         5 | JK Rowling    | Germany |
+|         5 | JK Rowling    | Germany |         5 | JK Rowling    | Germany |
+|         4 | Downy Flasks  | France  |         5 | JK Rowling    | Germany |
+|         3 | Ramakant      | India   |         5 | JK Rowling    | Germany |
+|         2 | Balkrishan    | India   |         5 | JK Rowling    | Germany |
+|         1 | Snowy Brown   | Germany |         5 | JK Rowling    | Germany |
+|         6 | Handsome Jony | USA     |         6 | Handsome Jony | USA     |
+|         5 | JK Rowling    | Germany |         6 | Handsome Jony | USA     |
+|         4 | Downy Flasks  | France  |         6 | Handsome Jony | USA     |
+|         3 | Ramakant      | India   |         6 | Handsome Jony | USA     |
+|         2 | Balkrishan    | India   |         6 | Handsome Jony | USA     |
+|         1 | Snowy Brown   | Germany |         6 | Handsome Jony | USA     |
++-----------+---------------+---------+-----------+---------------+---------+
+36 rows in set (0.00 sec)
+
+#CROSS JOIN
+SELECT author.author_name, author.author_no, book.title, book.unit_price, book.author_no from author CROSS
+join book ON book.author_no=author.author_no;
++---------------+-----------+------------------------+------------+-----------+
+| author_name   | author_no | title                  | unit_price | author_no |
++---------------+-----------+------------------------+------------+-----------+
+| JK Rowling    |         5 | In Search of Lost Time |        400 |         5 |
+| Handsome Jony |         6 | Ulysses                |        500 |         6 |
++---------------+-----------+------------------------+------------+-----------+
+2 rows in set (0.00 sec)
+
+
+
+#7.VIEWS
+create view customer_orders
+    -> AS
+    -> SELECT cust_no, cust_fname, cust_lname
+    -> FROM customer
+    -> INNER JOIN orders USING (cust_no);
+Query OK, 0 rows affected (0.18 sec)
+
+mysql> select * from customer_orders;
++---------+------------+------------+
+| cust_no | cust_fname | cust_lname |
++---------+------------+------------+
+|       3 | sara       | patil      |
+|       5 | henna      | shah       |
+|       8 | anuja      | dhobale    |
++---------+------------+------------+
+3 rows in set (0.04 sec)
+
+
+#VIEWS
+create view author_book AS SELECT author_no, author_name, book.title FROM author INNER JOIN book USING(author_no);
+Query OK, 0 rows affected (0.18 sec)
+
+mysql> select * from author_book;
++-----------+---------------+------------------------+
+| author_no | author_name   | title                  |
++-----------+---------------+------------------------+
+|         5 | JK Rowling    | In Search of Lost Time |
+|         6 | Handsome Jony | Ulysses                |
++-----------+---------------+------------------------+
+2 rows in set (0.05 sec)
+
+#VIEWS
+create view book_author  AS SELECT author_no, author_name, book.title FROM author NATURAL JOIN book where author.author_no=book.author_no;
+Query OK, 0 rows affected (0.19 sec)
+
+mysql> select * FROM book_author;
++-----------+---------------+------------------------+
+| author_no | author_name   | title                  |
++-----------+---------------+------------------------+
+|         5 | JK Rowling    | In Search of Lost Time |
+|         6 | Handsome Jony | Ulysses                |
++-----------+---------------+------------------------+
+2 rows in set (0.01 sec)
+
+#PUBLISHER VIEWS
+create view book_publisher  AS SELECT publisher_no, publisher_name, book.
+title FROM publisher NATURAL JOIN book where publisher.publisher_no=book.publish
+er_no;
+Query OK, 0 rows affected (0.15 sec)
+
+mysql> select * FROM book_publisher;
++--------------+----------------+------------------------+
+| publisher_no | publisher_name | title                  |
++--------------+----------------+------------------------+
+|            3 | Raghu          | In Search of Lost Time |
+|            4 | Kabuliwala     | Ulysses                |
+|            5 | John           | Don Quixote            |
+|            6 | O Henry        | The Great Gatsby       |
++--------------+----------------+------------------------+
+4 rows in set (0.04 sec)
+
