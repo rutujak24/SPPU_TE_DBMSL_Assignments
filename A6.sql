@@ -7,10 +7,10 @@ CREATE TABLE Student(
     status CHAR(1)
 );
 
-INSERT INTO Student VALUES(1, 'Suyash', 80, 'P');
-INSERT INTO Student VALUES(2, 'Shreejay', 80, 'P');
-INSERT INTO Student VALUES(3, 'Amit', 80, 'P');
-INSERT INTO Student VALUES(4, 'Vicky', 80, 'P');
+INSERT INTO Student VALUES(1, 'Fatema', 80, 'P');
+INSERT INTO Student VALUES(2, 'Sachin', 70, 'P');
+INSERT INTO Student VALUES(3, 'Ajay', 60, 'P');
+INSERT INTO Student VALUES(4, 'Vijay', 80, 'P');
 
 
 CREATE TABLE StudentOld(
@@ -20,10 +20,10 @@ CREATE TABLE StudentOld(
     status CHAR(1)
 );
 
-INSERT INTO StudentOld VALUES(3, 'Amit', 80, 'P');
-INSERT INTO StudentOld VALUES(4, 'Vicky', 80, 'P');
-INSERT INTO StudentOld VALUES(5, 'Prashant', 80, 'P');
-INSERT INTO StudentOld VALUES(6, 'Advait', 80, 'P');
+INSERT INTO Student VALUES(3, 'Ajay', 60, 'P');
+INSERT INTO Student VALUES(4, 'Vijay', 80, 'P');
+INSERT INTO StudentOld VALUES(5, 'Pooja', 80, 'P');
+INSERT INTO StudentOld VALUES(6, 'Anuja', 80, 'P');
 
 DELIMITER $$
 CREATE PROCEDURE add_students()
