@@ -34,3 +34,48 @@ Query OK, 1 row affected (0.10 sec)
 mysql> create table category(cust_id int, name varchar(50), class varchar(15));
 Query OK, 0 rows affected (0.53 sec)
 
+mysql> create function getClass(purchaseAmount int)
+    -> returns varchar(20) deterministic
+    -> begin
+    -> declare classString varchar(20);
+    -> if (purchaseAmount >= 10000 and purchaseAmount <= 20000) then
+    -> set classString = 'platinum';
+    -> elseif (purchaseAmount >= 5000 and purchaseAmount <= 9999) then
+    -> set classString = 'gold';
+    -> elseif (purchaseAmount >= 2000 and purchaseAmount <= 4999) then
+    -> set classString = 'silver';
+    -> end if;
+    -> return(classString);
+    -> end //
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> delimiter //
+mysql> create procedure proc_Grade(in custID int)
+    -> begin
+    -> declare custAmount int;
+    -> declare custName varchar(20);
+    -> declare custClass varchar(20);
+    -> declare exit handler for 1062
+    -> select 'Duplicate entry' as errorMessage;
+    -> select total_purchase into custAmount from customer where cust_id = custID;
+    -> select name into custName from customer where cust_id = custID;
+    -> set custClass = getClass(custAmount);
+    -> insert into category values (custID, custName, custClass);
+    -> end //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> call proc_Grade(1);
+mysql> call proc_Grade(2);
+
+mysql> select * from category;
++---------+-------+----------+
+| cust_id | name  | class    |
++---------+-------+----------+
+|       1 | Anuja | platinum |
+|       2 | Arya  | platinum |
++---------+-------+----------+
+2 rows in set (0.00 sec)
+
+mysql> exit;
+Bye
+
