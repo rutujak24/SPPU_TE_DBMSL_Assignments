@@ -1,0 +1,36 @@
+use A7;
+Database changed
+mysql> create table customer(cust_id int primary key, name varchar(20), total_purchase int);
+Query OK, 0 rows affected (1.60 sec)
+
+mysql> desc customer;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| cust_id        | int         | NO   | PRI | NULL    |       |
+| name           | varchar(20) | YES  |     | NULL    |       |
+| total_purchase | int         | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+3 rows in set (0.09 sec)
+
+mysql> insert into customer values(1,"Anuja",19000);
+Query OK, 1 row affected (0.31 sec)
+
+mysql> insert into customer values(2,"Arya",10000);
+Query OK, 1 row affected (0.10 sec)
+
+mysql> insert into customer values(3,"Sahil",3000);
+Query OK, 1 row affected (0.08 sec)
+
+mysql> insert into customer values(4,"Harsh",7900);
+Query OK, 1 row affected (0.13 sec)
+
+mysql> insert into customer values(5,"Arsh",7950);
+Query OK, 1 row affected (0.08 sec)
+
+mysql> insert into customer values(6,"Fatema",15000);
+Query OK, 1 row affected (0.10 sec)
+
+mysql> create table category(cust_id int, name varchar(50), class varchar(15));
+Query OK, 0 rows affected (0.53 sec)
+
