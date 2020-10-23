@@ -1,0 +1,143 @@
+use t31106
+
+show collections
+
+db.createCollection("MyBatch")
+
+db.MyBatch.insert(
+	{
+		name: 'Apoorv',
+		class: 'TE1',
+		rollno: 31106
+	})
+
+db.MyBatch.insert([
+	{
+		name: 'Anish',
+		class: 'TE1',
+		rollno: 31105,
+		interests:['Sleep','Repeat']
+	},
+	{
+		name: 'Ashwin',
+		class: 'TE1',
+		rollno: 31107,
+		interests:['Football','Reddit','Cat']
+	}])
+
+db.MyBatch.find()
+
+db.MyBatch.find().pretty()
+
+db.MyBatch.find().sort({rollno:1}).pretty()
+
+db.MyBatch.find().sort({rollno:-1}).pretty()
+
+db.MyBatch.find({rollno:31106}).count()
+
+db.MyBatch.find().limit(2).pretty()
+
+db.MyBatch.find().sort({rollno:-1}).limit(2).pretty()
+
+db.MyBatch.update({ name:'Apoorv' },
+	{
+		name: 'Apoorv',
+		class: 'TE1',
+		rollno: 31106
+	})
+
+db.MyBatch.update({ name:'Dhruv' },
+	{
+		name: 'Dhruv',
+		class: 'TE1',
+		rollno: 31118,
+		interests: ['Football','Basketball','All the sports out there']
+	},
+	{
+		upsert:true
+	})
+
+db.MyBatch.update({ name:'Apoorv' },
+	{
+		$set : {
+			instahandle : 'iamapoorvdixit'
+			class:'BE1'
+		}
+	})
+
+db.MyBatch.update({name:'Dhruv'},{$inc:{rollno:1}})
+db.MyBatch.update({name:'Dhruv'},{$inc:{rollno:-1}})
+
+db.MyBatch.insert(
+	{
+		name: 'Michael',
+		class: 'hehe',
+		rollno: 44
+	})
+
+db.MyBatch.remove({name:'Michael'})
+
+db.MyBatch.update({ name:'Apoorv' },
+	{
+		$set : {
+			project : [
+				{
+					name:'Pulzion 19 MCQ Platform',
+					contribution:'Back End Development',
+					stack:'Django'
+				},
+				{
+					name:'Diabetic Retinopathy Detection',
+					contribution:['Image Processing','Deep Learning'],
+					stack:['OpenCV','Keras']
+				}
+			]
+		}
+	})
+	
+
+db.MyBatch.save(
+	{
+		name: 'Mihir Kumar',
+		class: 'TE1',
+		rollno: 31038
+	})
+	
+db.MyBatch.find({
+	$and: [ 
+		{ instahandle : 'iamapoorvdixit' },
+		{ rollno:31106 } 
+	]
+}).pretty()
+
+	
+db.MyBatch.find({
+	$and: [ 
+		{ name: 'Dhruv'},
+		{ class: 'TE1'  } 
+	]
+}).pretty()
+	
+db.MyBatch.find({
+	$and: [ 
+		{ name: 'Dhruv'},
+		{ class: 'TE2'  } 
+	]
+}).pretty()
+
+	
+db.MyBatch.find({
+	$or: [ 
+		{ name: 'Dhruv'},
+		{ class: 'TE2'  } 
+	]
+}).pretty()
+
+	
+db.MyBatch.find( { rollno: { $not: { $gt: 31107 } } } ).pretty()
+db.MyBatch.find( { rollno: { $not: { $gte: 31107 } } } ).pretty()
+db.MyBatch.find( { rollno: { $not: { $lt: 31107 } } } ).pretty()
+db.MyBatch.find( { rollno: { $not: { $lte: 31107 } } } ).pretty()
+
+db.MyBatch.find( { rollno: { $ne: 31107 } } ).pretty()
+db.MyBatch.find( { rollno: { $eq: 31107 } } ).pretty()
