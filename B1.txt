@@ -1,4 +1,4 @@
-use t31106
+
 
 show collections
 
@@ -6,22 +6,22 @@ db.createCollection("MyBatch")
 
 db.MyBatch.insert(
 	{
-		name: 'Apoorv',
-		class: 'TE1',
-		rollno: 31106
+		name: 'Aprova',
+		class: 'TE2',
+		rollno: 31206
 	})
 
 db.MyBatch.insert([
 	{
 		name: 'Anish',
-		class: 'TE1',
-		rollno: 31105,
+		class: 'TE2',
+		rollno: 31205,
 		interests:['Sleep','Repeat']
 	},
 	{
 		name: 'Ashwin',
-		class: 'TE1',
-		rollno: 31107,
+		class: 'TE2',
+		rollno: 31207,
 		interests:['Football','Reddit','Cat']
 	}])
 
